@@ -808,7 +808,7 @@ int16_t DF_Player::query(uint8_t cmd, uint8_t msb, uint8_t lsb)
 
     findChecksum(sendStack);
     sendData();
-    timeDot = QTime::currentTime();
+//    timeDot = QTime::currentTime();
 
     if (parseFeedback())
         if (recStack.commandValue != 0x40)
@@ -825,10 +825,10 @@ int16_t DF_Player::query(uint8_t cmd, uint8_t msb, uint8_t lsb)
  /**************************************************************************/
 bool DF_Player::parseFeedback()
 {
-    while (true)
+    while (_serial.bytesAvailable())
     {
-        if (_serial.bytesAvailable())
-        {
+//        if (_serial.bytesAvailable())
+//        {
             uint8_t recChar = _serial.read(1).at(0);
 
             if (_debug)
@@ -981,16 +981,16 @@ bool DF_Player::parseFeedback()
             default:
                 break;
             }
-        }
+//        }
 
-        if ((QTime::currentTime().msecsSinceStartOfDay() - timeDot.msecsSinceStartOfDay()) > _threshold)
-        {
-            if (_debug)
-                qDebug() << "timeout error";
+//        if ((QTime::currentTime().msecsSinceStartOfDay() - timeDot.msecsSinceStartOfDay()) > _threshold)
+//        {
+//            if (_debug)
+//                qDebug() << "timeout error";
 
-            state = find_start_byte;
-            return false;
-        }
+//            state = find_start_byte;
+//            return false;
+//        }
     }
 }
 
@@ -1063,23 +1063,35 @@ void DF_Player::printError()
 
 void DF_Player::updateData()
 {
-    reset();
-    QThread::sleep(1);
-    wakeUp();
+    int ms = 500;
 
+    QThread::usleep(ms);
     ui->volume->setValue(currentVolume());
+    QThread::usleep(ms);
     qDebug() << "currentVolume " << currentVolume();
+    QThread::usleep(ms);
     qDebug() << "isPlaying " << isPlaying();
+    QThread::usleep(ms);
     qDebug() << "current mode " << currentMode();
+    QThread::usleep(ms);
     qDebug() << "current version " << currentVersion();
+    QThread::usleep(ms);
     qDebug() << "numUsbTracks " << numUsbTracks();
+    QThread::usleep(ms);
     qDebug() << "numSdTracks " << numSdTracks();
+    QThread::usleep(ms);
     qDebug() << "numFlashTracks " << numFlashTracks();
+    QThread::usleep(ms);
     qDebug() << "currentUsbTrack " << currentUsbTrack();
+    QThread::usleep(ms);
     qDebug() << "currentSdTrack " << currentSdTrack();
+    QThread::usleep(ms);
     qDebug() << "currentFlashTrack " << currentFlashTrack();
+    QThread::usleep(ms);
     qDebug() << "numTracksInFolder 1" << numTracksInFolder(1);
+    QThread::usleep(ms);
     qDebug() << "numFolders " << numFolders();
+    QThread::usleep(ms);
 }
 
 void DF_Player::on_update_clicked()

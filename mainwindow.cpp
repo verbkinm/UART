@@ -224,7 +224,7 @@ void MainWindow::write()
 
 void MainWindow::readData()
 {
-    _serialport.waitForReadyRead(500);
+//    _serialport.waitForReadyRead(500);
     QByteArray data = _serialport.readAll();
     QString timeMarker = QTime::currentTime().toString("hh:mm:ss.z") + " -> ";
     ui->inData->appendPlainText(timeMarker + data);
