@@ -98,6 +98,8 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
                 || keyCode == Qt::Key_Return
                 || keyCode == Qt::Key_Backspace || keyCode == Qt::Key_Delete)
             return QMainWindow::eventFilter(watched, event);
+        else if ((keyCode == Qt::Key_C || keyCode == Qt::Key_V) && keyEvent->modifiers() == Qt::ControlModifier)
+            return QMainWindow::eventFilter(watched, event);
 
         return true;
     }
@@ -176,7 +178,7 @@ void MainWindow::outDataTextChanged()
 
     if (ui->hex->isChecked())
     {
-        QString rawString = ui->outData->toPlainText().remove('\n');
+        QString rawString = ui->outData->toPlainText().remove('\n').remove(' ');
 
         // Добавить в старший разряд 0 для полного байта
         if (rawString.length() % 2 > 0)
@@ -222,7 +224,7 @@ void MainWindow::write()
 
 void MainWindow::readData()
 {
-    _serialport.waitForReadyRead(300);
+    _serialport.waitForReadyRead(500);
     QByteArray data = _serialport.readAll();
     QString timeMarker = QTime::currentTime().toString("hh:mm:ss.z") + " -> ";
     ui->inData->appendPlainText(timeMarker + data);
@@ -258,10 +260,19 @@ void MainWindow::on_hex_toggled(bool checked)
         ui->outData->setPlainText(textToHexText(ui->outData->toPlainText()));
 }
 
-
 void MainWindow::on_ascii_toggled(bool checked)
 {
     if (checked)
         ui->outData->setPlainText(hexTextToText(ui->outData->toPlainText()));
 }
 
+void MainWindow::on_actionDF_Player_triggered()
+{
+    disconnect(&_serialport, &QSerialPort::readyRead, this, &MainWindow::readData);
+
+    DF_Player *dfPlayer = new DF_Player(_serialport);
+    dfPlayer->exec();
+    delete dfPlayer;
+
+    connect(&_serialport, &QSerialPort::readyRead, this, &MainWindow::readData);
+}

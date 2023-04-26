@@ -206,9 +206,16 @@
     <addaction name="actionAbout"/>
     <addaction name="actionAboutQt"/>
    </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Дополнительно</string>
+    </property>
+    <addaction name="actionDF_Player"/>
+   </widget>
    <addaction name="menuCalls"/>
    <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
+   <addaction name="menu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="enabled">
@@ -308,6 +315,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionDF_Player">
+   <property name="text">
+    <string>DF_Player</string>
    </property>
   </action>
  </widget>

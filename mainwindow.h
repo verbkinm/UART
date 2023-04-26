@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QSerialPort>
 #include <QTime>
+#include <df_player.h>
 
 #include "settingsdialog.h"
 
@@ -42,6 +43,8 @@ private slots:
     void on_hex_toggled(bool checked);
 
     void on_ascii_toggled(bool checked);
+
+    void on_actionDF_Player_triggered();
 
 private:
     Ui::MainWindow *ui;

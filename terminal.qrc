@@ -5,6 +5,5 @@
         <file>images/application-exit.png</file>
         <file>images/settings.png</file>
         <file>images/sensor.png</file>
-        <file>images/UART.png</file>
     </qresource>
 </RCC>
