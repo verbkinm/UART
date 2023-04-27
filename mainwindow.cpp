@@ -270,9 +270,38 @@ void MainWindow::on_actionDF_Player_triggered()
 {
     disconnect(&_serialport, &QSerialPort::readyRead, this, &MainWindow::readData);
 
-    DF_Player *dfPlayer = new DF_Player(_serialport);
-    dfPlayer->exec();
-    delete dfPlayer;
+    DF_Player dfPlayer(_serialport);
+    dfPlayer.exec();
 
     connect(&_serialport, &QSerialPort::readyRead, this, &MainWindow::readData);
 }
+
+void MainWindow::on_action_ASCII_triggered()
+{
+    ui->inDataRaw->hide();
+    ui->label_hex->hide();
+
+    ui->inData->show();
+    ui->label_ascii->show();
+}
+
+
+void MainWindow::on_action_HEX_triggered()
+{
+    ui->inData->hide();
+    ui->label_ascii->hide();
+
+    ui->inDataRaw->show();
+    ui->label_hex->show();
+}
+
+
+void MainWindow::on_actionASCII_HEX_triggered()
+{
+    ui->inData->show();
+    ui->label_ascii->show();
+
+    ui->inDataRaw->show();
+    ui->label_hex->show();
+}
+

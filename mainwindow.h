@@ -46,6 +46,12 @@ private slots:
 
     void on_actionDF_Player_triggered();
 
+    void on_action_ASCII_triggered();
+
+    void on_action_HEX_triggered();
+
+    void on_actionASCII_HEX_triggered();
+
 private:
     Ui::MainWindow *ui;
 

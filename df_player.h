@@ -11,92 +11,101 @@ namespace Ui {
 class DF_Player;
 }
 
-namespace dfplayer
-{
-/** Packet Values */
-const uint8_t STACK_SIZE      = 10;   // total number of bytes in a stack/packet (same for cmds and queries)
-const uint8_t SB              = 0x7E; // start byte
-const uint8_t VER             = 0xFF; // version
-const uint8_t LEN             = 0x6;  // number of bytes after "LEN" (except for checksum data and EB)
-const uint8_t FEEDBACK        = 1;    // feedback requested
-const uint8_t NO_FEEDBACK     = 0;    // no feedback requested
-const uint8_t EB              = 0xEF; // end byte
+/* Packet Values */
+#define STACK_SIZE              10   // total number of bytes in a stack/packet (same for cmds and queries)
+#define SB                      0x7E // start byte
+#define VER                     0xFF // version
+#define LEN                     0x06 // number of bytes after "LEN" (except for checksum data and EB)
+#define FEEDBACK                1    // feedback requested
+#define NO_FEEDBACK             0    // no feedback requested
+#define EB                      0xEF // end byte
 
-/** Control Command Values */
-const uint8_t NEXT            = 0x01;
-const uint8_t PREV            = 0x02;
-const uint8_t PLAY            = 0x03;
-const uint8_t INC_VOL         = 0x04;
-const uint8_t DEC_VOL         = 0x05;
-const uint8_t VOLUME          = 0x06;
-const uint8_t EQ              = 0x07;
-const uint8_t PLAYBACK_MODE   = 0x08;
-const uint8_t PLAYBACK_SRC    = 0x09;
-const uint8_t STANDBY         = 0x0A;
-const uint8_t NORMAL          = 0x0B;
-const uint8_t RESET           = 0x0C;
-const uint8_t PLAYBACK        = 0x0D;
-const uint8_t PAUSE           = 0x0E;
-const uint8_t SPEC_FOLDER     = 0x0F;
-const uint8_t VOL_ADJ         = 0x10;
-const uint8_t REPEAT_PLAY     = 0x11;
-const uint8_t USE_MP3_FOLDER  = 0x12;
-const uint8_t INSERT_ADVERT   = 0x13;
-const uint8_t SPEC_TRACK_3000 = 0x14;
-const uint8_t STOP_ADVERT     = 0x15;
-const uint8_t STOP            = 0x16;
-const uint8_t REPEAT_FOLDER   = 0x17;
-const uint8_t RANDOM_ALL      = 0x18;
-const uint8_t REPEAT_CURRENT  = 0x19;
-const uint8_t SET_DAC         = 0x1A;
+/* Control Commands */
+#define CTRL_NEXT               0x01
+#define CTRL_PREV               0x02
+#define CTRL_SPEC_PLAY          0x03 // Specify playback of a track(in the root directory of a storage device)
+#define CTRL_INC_VOL            0x04
+#define CTRL_DEC_VOL            0x05
+#define CTRL_VOLUME             0x06
+#define CTRL_EQ                 0x07
+#define CTRL_PLAYBACK_MODE      0x08 // Specify single repeat playback
+#define CTRL_PLAYBACK_SRC       0x09 // Specify playback of a device(USB/SD)
+#define CTRL_SLEEP              0x0A
+//#define NORMAL           0x0B
+#define CTRL_RESET              0x0C
+#define CTRL_PLAY               0x0D
+#define CTRL_PAUSE              0x0E
+#define CTRL_SPEC_FOLDER        0x0F // Specify playback a track in a folder
+#define CTRL_AUDIO_AMPL         0x10 // Audio amplification setting
+#define CTRL_REPEAT_PLAY        0x11 // Set all repeat playback
+#define CTRL_SPEC_PLAY_MP3      0x12 // Specify playback of folder named “MP3”
+#define CTRL_INSERT_ADVERT      0x13 // Insert an advertisement
+#define CTRL_SPEC_TRACK_3000    0x14 // Specify playback a track in a folder that supports 3000 tracks
+#define CTRL_STOP_ADVERT        0x15
+#define CTRL_STOP               0x16
+#define CTRL_REPEAT_FOLDER      0x17 // Specify repeat playback of a folder
+#define CTRL_RANDOM_ALL         0x18
+#define CTRL_REPEAT_CURRENT     0x19
+#define CTRL_SET_DAC            0x1A
 
-/** Query Command Values */
-const uint8_t SEND_INIT        = 0x3F;
-const uint8_t RETRANSMIT       = 0x40;
-const uint8_t REPLY            = 0x41;
-const uint8_t GET_STATUS_      = 0x42;
-const uint8_t GET_VOL          = 0x43;
-const uint8_t GET_EQ           = 0x44;
-const uint8_t GET_MODE         = 0x45;
-const uint8_t GET_VERSION      = 0x46;
-const uint8_t GET_TF_FILES     = 0x47;
-const uint8_t GET_U_FILES      = 0x48;
-const uint8_t GET_FLASH_FILES  = 0x49;
-const uint8_t KEEP_ON          = 0x4A;
-const uint8_t GET_TF_TRACK     = 0x4B;
-const uint8_t GET_U_TRACK      = 0x4C;
-const uint8_t GET_FLASH_TRACK  = 0x4D;
-const uint8_t GET_FOLDER_FILES = 0x4E;
-const uint8_t GET_FOLDERS      = 0x4F;
+/* Query Command */
+#define CMD_CUR_DIVE_ONLINE     0x3F // Query current online storage device
+#define CMD_ERROR               0x40 // Module returns an error data with this command
+#define CMD_FEEDBACK            0x41 // Module reports a feedback with this command
+#define CMD_STATUS              0x42 // Query current status
+#define CMD_VOLUME              0x43 // Query current volume
+#define CMD_EQ                  0x44 // Query current EQ
+//#define GET_MODE         0x45 // !!!
+//#define GET_VERSION      0x46 // !!!
+#define CMD_USB_FILES           0x47 // Query number of tracks in the root of USB flash drive
+#define CMD_SD_FILES            0x48 // Query number of tracks in the root of micro SD card
+//#define GET_FLASH_FILES  0x49 // !!!
+//#define KEEP_ON          0x4A // !!!
+#define CMD_USB_TRACK           0x4B // Query current track in the USB flash drive
+#define CMD_SD_TRACK            0x4C // Query current track in the micro SD Card
+//#define GET_FLASH_TRACK   0x4D //!!!
+#define CMD_FOLDER_FILES        0x4E // Query number of tracks in a folder
+#define CMD_FOLDERS             0x4F // Query number of folders in the current storage device
 
 /** EQ Values */
-const uint8_t EQ_NORMAL       = 0;
-const uint8_t EQ_POP          = 1;
-const uint8_t EQ_ROCK         = 2;
-const uint8_t EQ_JAZZ         = 3;
-const uint8_t EQ_CLASSIC      = 4;
-const uint8_t EQ_BASE         = 5;
+#define EQ_NORMAL        0
+#define EQ_POP           1
+#define EQ_ROCK          2
+#define EQ_JAZZ          3
+#define EQ_CLASSIC       4
+#define EQ_BASE          5
 
 /** Mode Values */
-const uint8_t REPEAT          = 0;
-const uint8_t FOLDER_REPEAT   = 1;
-const uint8_t SINGLE_REPEAT   = 2;
-const uint8_t RANDOM          = 3;
+//#define REPEAT           0
+//#define FOLDER_REPEAT    1
+//#define SINGLE_REPEAT    2
+//#define RANDOM           3
 
-/** Playback Source Values */
-const uint8_t U               = 1;
-const uint8_t TF              = 2;
-const uint8_t AUX             = 3;
-const uint8_t SLEEP           = 4;
-const uint8_t FLASH           = 5;
+///** Playback Source Values */
+//#define U                1
+//#define TF               2
+//#define AUX              3
+//#define SLEEP            4
+//#define FLASH            5
 
 /** Base Volume Adjust Value */
-const uint8_t VOL_ADJUST      = 0x10;
+//#define VOL_ADJUST       0x10
 
 /** Repeat Play Values */
-const uint8_t STOP_REPEAT     = 0;
-const uint8_t START_REPEAT    = 1;
-}
+//#define STOP_REPEAT      0
+//#define START_REPEAT     1
+
+#define start_byte      0
+#define version         1
+#define length          2
+#define commandValue    3
+#define feedbackValue   4
+#define paramMSB        5
+#define paramLSB        6
+#define checksumMSB     7
+#define checksumLSB     8
+#define end_byte        9
+
 
 class DF_Player : public QDialog
 {
@@ -106,20 +115,7 @@ public:
     explicit DF_Player(QSerialPort &serial, QDialog *parent = nullptr);
     ~DF_Player();
 
-    /** Struct to store entire serial datapacket used for MP3 config/control */
-    struct stack
-    {
-        uint8_t start_byte;
-        uint8_t version;
-        uint8_t length;
-        uint8_t commandValue;
-        uint8_t feedbackValue;
-        uint8_t paramMSB;
-        uint8_t paramLSB;
-        uint8_t checksumMSB;
-        uint8_t checksumLSB;
-        uint8_t end_byte;
-    } sendStack, recStack;
+    uint8_t sendDataArr, recDataArr;
 
     bool _debug;
 
@@ -183,6 +179,12 @@ public:
 
 private slots:
     void on_update_clicked();
+
+    void on_volume_valueChanged(int value);
+
+    void on_volume_sliderReleased();
+
+    void on_reset_clicked();
 
 private:
     QTime timeDot;

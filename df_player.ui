@@ -106,6 +106,9 @@
      <height>201</height>
     </rect>
    </property>
+   <property name="maximum">
+    <number>30</number>
+   </property>
    <property name="orientation">
     <enum>Qt::Vertical</enum>
    </property>
@@ -120,94 +123,38 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>20</y>
-     <width>281</width>
-     <height>111</height>
+     <y>30</y>
+     <width>261</width>
+     <height>101</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
-    <item row="1" column="0">
+    <item row="0" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
        <string>Каталог:</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QSpinBox" name="folder_number">
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
+    <item row="0" column="1">
+     <widget class="QComboBox" name="folders"/>
     </item>
-    <item row="2" column="0">
+    <item row="1" column="0">
      <widget class="QLabel" name="label_2">
       <property name="text">
        <string>Файл:</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="1">
-     <widget class="QSpinBox" name="file_number">
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="buttonSymbols">
-       <enum>QAbstractSpinBox::NoButtons</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Playback Source:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QComboBox" name="comboBox">
-      <item>
-       <property name="text">
-        <string>U</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>TF</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>AUX</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>SLEEP</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>FLASH</string>
-       </property>
-      </item>
-     </widget>
+    <item row="1" column="1">
+     <widget class="QComboBox" name="tracks"/>
     </item>
    </layout>
   </widget>
   <widget class="QPushButton" name="update">
    <property name="geometry">
     <rect>
-     <x>360</x>
+     <x>380</x>
      <y>20</y>
      <width>60</width>
      <height>60</height>
@@ -215,6 +162,19 @@
    </property>
    <property name="text">
     <string>U</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="reset">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>20</y>
+     <width>60</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>R</string>
    </property>
   </widget>
  </widget>
