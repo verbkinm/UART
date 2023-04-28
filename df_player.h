@@ -116,6 +116,7 @@ private:
     void playPrevious();
     void play(uint16_t trackNum);
     void stop();
+    void playFromRootFolder(uint16_t trackNum);
     void playFromMP3Folder(uint16_t trackNum);
     void playAdvertisement(uint16_t trackNum);
     void stopAdvertisement();
@@ -168,10 +169,16 @@ private slots:
     void dataRecive();
 
     void on_update_clicked();
-    void on_volume_valueChanged(int value);
-    void on_volume_sliderReleased();
     void on_reset_clicked();
     void on_update_2_clicked();
+    void on_playFolerTrack_clicked();
+    void on_num_folder_toggled(bool checked);
+    void on_vol_inc_clicked();
+    void on_vol_dec_clicked();
+    void on_repeate_all_clicked();
+    void on_pushButton_clicked();
+    void on_adj_accept_clicked();
+    void on_eq_currentIndexChanged(int index);
 };
 
 #endif // DF_PLAYER_H

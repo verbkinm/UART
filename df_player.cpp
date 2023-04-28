@@ -10,13 +10,9 @@ DF_Player::DF_Player(QSerialPort &serial, QDialog *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->play_pause, &QPushButton::clicked, this, &DF_Player::play);
     connect(ui->stop, &QPushButton::clicked, this, &DF_Player::stop);
     connect(ui->next, &QPushButton::clicked, this, &DF_Player::playNext);
     connect(ui->prev, &QPushButton::clicked, this, &DF_Player::playPrevious);
-
-    connect(ui->vol_inc, &QPushButton::clicked, this, &DF_Player::incVolume);
-    connect(ui->vol_dec, &QPushButton::clicked, this, &DF_Player::decVolume);
 
     connect(&_serial, &QSerialPort::readyRead, this, &DF_Player::dataRecive);
 
@@ -81,6 +77,14 @@ void DF_Player::stop()
     sendDataBuffer[CMD_VALUE] = CTRL_STOP;
     sendDataBuffer[PARAM_MSB] = 0;
     sendDataBuffer[PARAM_LSB] = 0;
+    sendData();
+}
+
+void DF_Player::playFromRootFolder(uint16_t trackNum)
+{
+    sendDataBuffer[CMD_VALUE] = CTRL_SPEC_PLAY;
+    sendDataBuffer[PARAM_MSB] = (trackNum >> 8);
+    sendDataBuffer[PARAM_LSB] = trackNum;
     sendData();
 }
 
@@ -606,6 +610,7 @@ void DF_Player::parseData()
     {
         printf("Recive unknow data. Data in rec buffer: ");
         printBuff(recDataBuffer, recDataBufferSize);
+        printf("\n");
 
         // Смещаем буфер влево, отбрасывая первый байт
         memmove(recDataBuffer, &recDataBuffer[1], BUFFER_SIZE - 1);
@@ -652,11 +657,11 @@ void DF_Player::parseData()
     case CMD_VOLUME:
         printf("Volume is %d\n", LSB);
         curr_vol = LSB;
-        ui->volume->setValue(LSB);
         break;
     case CMD_EQ:
         printf("EQ is %d\n", LSB);
         curr_eq = LSB;
+        ui->eq->setCurrentIndex(LSB);
         break;
 
     case CMD_USB_FILES:
@@ -800,6 +805,8 @@ void DF_Player::updateData()
 {
     QGuiApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
+    volumeAdjustSet(0, 0);
+
     query_isPlaying();
     query_currentVolume();
     query_currentEQ();
@@ -809,7 +816,7 @@ void DF_Player::updateData()
     query_currentSdTrack();
     query_numFolders();
 
-    for (int i = 0; i <= num_folders; ++i)
+    for (int i = 1; i <= num_folders; ++i)
     {
         query_numTracksInFolder(i);
     }
@@ -837,19 +844,6 @@ void DF_Player::on_update_clicked()
     updateData();
 }
 
-void DF_Player::on_volume_valueChanged(int value)
-{
-    //    volume(ui->volume->value());
-}
-
-
-void DF_Player::on_volume_sliderReleased()
-{
-    qDebug() <<"slider - " << ui->volume->value();
-    //    volume(ui->volume->value());
-}
-
-
 void DF_Player::on_reset_clicked()
 {
     reset();
@@ -859,5 +853,59 @@ void DF_Player::on_reset_clicked()
 void DF_Player::on_update_2_clicked()
 {
     playbackSource(2);
+}
+
+
+void DF_Player::on_playFolerTrack_clicked()
+{
+    if (ui->num_folder->isChecked())
+        playLargeFolder(ui->folder->value(), ui->track->value());
+    else if(ui->folder_mp3->isChecked())
+        playFromMP3Folder(ui->track->value());
+    else if(ui->folder_root->isChecked())
+        playFromRootFolder(ui->track->value());
+}
+
+
+void DF_Player::on_num_folder_toggled(bool checked)
+{
+    ui->folder->setEnabled(checked);
+}
+
+void DF_Player::on_vol_inc_clicked()
+{
+    incVolume();
+    query_currentVolume();
+}
+
+
+void DF_Player::on_vol_dec_clicked()
+{
+    decVolume();
+    query_currentVolume();
+}
+
+
+void DF_Player::on_repeate_all_clicked()
+{
+    startRepeatPlay();
+}
+
+
+void DF_Player::on_pushButton_clicked()
+{
+    play(0);
+    startRepeat();
+}
+
+void DF_Player::on_adj_accept_clicked()
+{
+    volumeAdjustSet(ui->adj_state->value(), ui->adj_gain->value());
+}
+
+
+void DF_Player::on_eq_currentIndexChanged(int index)
+{
+    EQSelect(index);
 }
 
