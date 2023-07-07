@@ -909,3 +909,9 @@ void DF_Player::on_eq_currentIndexChanged(int index)
     EQSelect(index);
 }
 
+
+void DF_Player::on_isPlay_clicked()
+{
+    query_isPlaying();
+}
+

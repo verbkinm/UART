@@ -179,6 +179,7 @@ private slots:
     void on_pushButton_clicked();
     void on_adj_accept_clicked();
     void on_eq_currentIndexChanged(int index);
+    void on_isPlay_clicked();
 };
 
 #endif // DF_PLAYER_H

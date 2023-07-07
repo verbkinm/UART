@@ -97,6 +97,13 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="isPlay">
+       <property name="text">
+        <string>isPlay</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
